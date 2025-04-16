@@ -4743,7 +4743,80 @@ vertical-align: -.125em;
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-importtidytransform" id="toc-data-importtidytransform" class="nav-link active" data-scroll-target="#data-importtidytransform">Data Import/Tidy/Transform</a>
+  <ul>
+  <li><a href="#read-in-the-data" id="toc-read-in-the-data" class="nav-link" data-scroll-target="#read-in-the-data">Read in the data</a></li>
+  <li><a href="#clean-the-data" id="toc-clean-the-data" class="nav-link" data-scroll-target="#clean-the-data">Clean the data</a></li>
+  </ul></li>
+  <li><a href="#data-spliting" id="toc-data-spliting" class="nav-link" data-scroll-target="#data-spliting">Data Spliting</a>
+  <ul>
+  <li><a href="#set-a-seed" id="toc-set-a-seed" class="nav-link" data-scroll-target="#set-a-seed">Set a seed</a></li>
+  <li><a href="#use-the-initial_split-function-from-the-rsample-package-to-split-the-data.-use-80-of-the-data-for-training-and-20-for-testing." id="toc-use-the-initial_split-function-from-the-rsample-package-to-split-the-data.-use-80-of-the-data-for-training-and-20-for-testing." class="nav-link" data-scroll-target="#use-the-initial_split-function-from-the-rsample-package-to-split-the-data.-use-80-of-the-data-for-training-and-20-for-testing.">Use the initial_split() function from the rsample package to split the data. Use 80% of the data for training and 20% for testing.</a></li>
+  <li><a href="#use-the-training-and-testing-functions-from-the-rsample-package-to-extract-the-training-and-testing-data.frames." id="toc-use-the-training-and-testing-functions-from-the-rsample-package-to-extract-the-training-and-testing-data.frames." class="nav-link" data-scroll-target="#use-the-training-and-testing-functions-from-the-rsample-package-to-extract-the-training-and-testing-data.frames.">Use the training() and testing() functions from the rsample package to extract the training and testing data.frames.</a></li>
+  </ul></li>
+  <li><a href="#feature-engineering" id="toc-feature-engineering" class="nav-link" data-scroll-target="#feature-engineering">Feature Engineering</a>
+  <ul>
+  <li><a href="#use-the-recipe-function-from-the-recipes-package-to-create-a-recipe-object." id="toc-use-the-recipe-function-from-the-recipes-package-to-create-a-recipe-object." class="nav-link" data-scroll-target="#use-the-recipe-function-from-the-recipes-package-to-create-a-recipe-object.">Use the recipe() function from the recipes package to create a recipe object.</a>
+  <ul class="collapse">
+  <li><a href="#you-should-not-use-gauge_lat-and-gauge_lon-in-the-recipe-as-predictors.-you-can-use-the-step_rm-function-to-remove-them-from-the-recipe-while-ensureing-they-persist-in-any-data-passed-throuhg-fit_.-done" id="toc-you-should-not-use-gauge_lat-and-gauge_lon-in-the-recipe-as-predictors.-you-can-use-the-step_rm-function-to-remove-them-from-the-recipe-while-ensureing-they-persist-in-any-data-passed-throuhg-fit_.-done" class="nav-link" data-scroll-target="#you-should-not-use-gauge_lat-and-gauge_lon-in-the-recipe-as-predictors.-you-can-use-the-step_rm-function-to-remove-them-from-the-recipe-while-ensureing-they-persist-in-any-data-passed-throuhg-fit_.-done">You should not use gauge_lat and gauge_lon in the recipe as predictors. You can use the step_rm() function to remove them from the recipe while ensureing they persist in any data passed throuhg fit_*. – DONE</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#resampling-and-model-testing-1.-build-resamples" id="toc-resampling-and-model-testing-1.-build-resamples" class="nav-link" data-scroll-target="#resampling-and-model-testing-1.-build-resamples">Resampling and Model Testing ###1. Build resamples</a>
+  <ul>
+  <li><a href="#build-3-candidate-models-define-3-models-that-you-feel-have-the-best-chance-of-performing-well-on-the-data.-you-can-use-any-of-the-models-we-have-learned-about-in-class.-linear-regression-is-a-baseline-model-that-can-be-effective-if-there-is-a-linear-relationship-between-the-predictors-and-the-outcome-variable.-it-is-fast-to-compute-and-interpretable.-random-forests-are-ensemble-models-that-can-handle-complex-non-linear-relationships-and-interactions-between-predictors.-it-also-handles-missing-data-well-and-is-relatively-robust-to-overfitting.-boosted-trees-like-xgboost-can-perform-well-on-structuredtabular-data-and-often-provide-strong-predictive-performance.-they-work-by-combining-multiple-weak-learners-decision-trees-to-create-a-strong-model-typically-outperforming-random-forests-in-terms-of-accuracy." id="toc-build-3-candidate-models-define-3-models-that-you-feel-have-the-best-chance-of-performing-well-on-the-data.-you-can-use-any-of-the-models-we-have-learned-about-in-class.-linear-regression-is-a-baseline-model-that-can-be-effective-if-there-is-a-linear-relationship-between-the-predictors-and-the-outcome-variable.-it-is-fast-to-compute-and-interpretable.-random-forests-are-ensemble-models-that-can-handle-complex-non-linear-relationships-and-interactions-between-predictors.-it-also-handles-missing-data-well-and-is-relatively-robust-to-overfitting.-boosted-trees-like-xgboost-can-perform-well-on-structuredtabular-data-and-often-provide-strong-predictive-performance.-they-work-by-combining-multiple-weak-learners-decision-trees-to-create-a-strong-model-typically-outperforming-random-forests-in-terms-of-accuracy." class="nav-link" data-scroll-target="#build-3-candidate-models-define-3-models-that-you-feel-have-the-best-chance-of-performing-well-on-the-data.-you-can-use-any-of-the-models-we-have-learned-about-in-class.-linear-regression-is-a-baseline-model-that-can-be-effective-if-there-is-a-linear-relationship-between-the-predictors-and-the-outcome-variable.-it-is-fast-to-compute-and-interpretable.-random-forests-are-ensemble-models-that-can-handle-complex-non-linear-relationships-and-interactions-between-predictors.-it-also-handles-missing-data-well-and-is-relatively-robust-to-overfitting.-boosted-trees-like-xgboost-can-perform-well-on-structuredtabular-data-and-often-provide-strong-predictive-performance.-they-work-by-combining-multiple-weak-learners-decision-trees-to-create-a-strong-model-typically-outperforming-random-forests-in-terms-of-accuracy.">2. Build 3 Candidate Models ####Define 3 models that you feel have the best chance of performing well on the data. You can use any of the models we have learned about in class. – Linear regression is a baseline model that can be effective if there is a linear relationship between the predictors and the outcome variable. It is fast to compute and interpretable. Random forests are ensemble models that can handle complex, non-linear relationships and interactions between predictors. It also handles missing data well and is relatively robust to overfitting. Boosted trees (like XGBoost) can perform well on structured/tabular data and often provide strong predictive performance. They work by combining multiple weak learners (decision trees) to create a strong model, typically outperforming random forests in terms of accuracy.</a></li>
+  <li><a href="#test-the-models-use-the-workflow_set-function-to-test-your-three-models-against-the-recipe.-you-will-use-the-workflow_map-function-to-map-the-models-to-the-recipe-and-resamples." id="toc-test-the-models-use-the-workflow_set-function-to-test-your-three-models-against-the-recipe.-you-will-use-the-workflow_map-function-to-map-the-models-to-the-recipe-and-resamples." class="nav-link" data-scroll-target="#test-the-models-use-the-workflow_set-function-to-test-your-three-models-against-the-recipe.-you-will-use-the-workflow_map-function-to-map-the-models-to-the-recipe-and-resamples.">3. Test the models ####Use the workflow_set() function to test your three models against the recipe. You will use the workflow_map() function to map the models to the recipe and resamples.</a>
+  <ul class="collapse">
+  <li><a href="#once-complete-use-autoplot-to-visualize-the-results-of-the-workflow-set." id="toc-once-complete-use-autoplot-to-visualize-the-results-of-the-workflow-set." class="nav-link" data-scroll-target="#once-complete-use-autoplot-to-visualize-the-results-of-the-workflow-set.">Once complete, use autoplot to visualize the results of the workflow set.</a></li>
+  </ul></li>
+  <li><a href="#model-selection-based-on-the-visualized-metrics-select-a-model-that-you-think-best-performs.-describe-the-reason-for-your-choice-using-the-metrics.-based-on-the-visualization-of-model-performance-metrics-i-would-select-the-random-forest-model-as-it-demonstrates-the-lowest-rmse-and-mae-values-while-achieving-the-highest-r-squared-score.-the-random-forests-performance-being-significantly-better-likely-stems-from-its-ability-to-capture-the-non-linear-relationships-in-hydrological-data-and-effectively-model-the-complex-interactions-between-soil-climate-and-water-flow-variables." id="toc-model-selection-based-on-the-visualized-metrics-select-a-model-that-you-think-best-performs.-describe-the-reason-for-your-choice-using-the-metrics.-based-on-the-visualization-of-model-performance-metrics-i-would-select-the-random-forest-model-as-it-demonstrates-the-lowest-rmse-and-mae-values-while-achieving-the-highest-r-squared-score.-the-random-forests-performance-being-significantly-better-likely-stems-from-its-ability-to-capture-the-non-linear-relationships-in-hydrological-data-and-effectively-model-the-complex-interactions-between-soil-climate-and-water-flow-variables." class="nav-link" data-scroll-target="#model-selection-based-on-the-visualized-metrics-select-a-model-that-you-think-best-performs.-describe-the-reason-for-your-choice-using-the-metrics.-based-on-the-visualization-of-model-performance-metrics-i-would-select-the-random-forest-model-as-it-demonstrates-the-lowest-rmse-and-mae-values-while-achieving-the-highest-r-squared-score.-the-random-forests-performance-being-significantly-better-likely-stems-from-its-ability-to-capture-the-non-linear-relationships-in-hydrological-data-and-effectively-model-the-complex-interactions-between-soil-climate-and-water-flow-variables.">4. Model Selection ####Based on the visualized metrics, select a model that you think best performs. Describe the reason for your choice using the metrics. – Based on the visualization of model performance metrics, I would select the random forest model as it demonstrates the lowest RMSE and MAE values while achieving the highest R-squared score. The random forest’s performance being significantly better likely stems from its ability to capture the non-linear relationships in hydrological data and effectively model the complex interactions between soil, climate, and water flow variables.</a>
+  <ul class="collapse">
+  <li><a href="#describe-the-model-you-selected.-what-is-the-model-type-engine-and-mode.-why-do-you-think-it-is-performing-well-for-this-problem-i-selected-the-random-forest-model-rand_forest-with-the-ranger-engine-in-regression-mode-which-likely-outperforms-the-alternatives-due-to-its-ability-to-capture-complex-non-linear-relationships-in-hydrological-data-and-handle-interactions-between-diverse-environmental-variables-without-requiring-explicit-specification." id="toc-describe-the-model-you-selected.-what-is-the-model-type-engine-and-mode.-why-do-you-think-it-is-performing-well-for-this-problem-i-selected-the-random-forest-model-rand_forest-with-the-ranger-engine-in-regression-mode-which-likely-outperforms-the-alternatives-due-to-its-ability-to-capture-complex-non-linear-relationships-in-hydrological-data-and-handle-interactions-between-diverse-environmental-variables-without-requiring-explicit-specification." class="nav-link" data-scroll-target="#describe-the-model-you-selected.-what-is-the-model-type-engine-and-mode.-why-do-you-think-it-is-performing-well-for-this-problem-i-selected-the-random-forest-model-rand_forest-with-the-ranger-engine-in-regression-mode-which-likely-outperforms-the-alternatives-due-to-its-ability-to-capture-complex-non-linear-relationships-in-hydrological-data-and-handle-interactions-between-diverse-environmental-variables-without-requiring-explicit-specification.">Describe the model you selected. What is the model type, engine, and mode. Why do you think it is performing well for this problem? – I selected the random forest model (rand_forest()) with the “ranger” engine in regression mode, which likely outperforms the alternatives due to its ability to capture complex non-linear relationships in hydrological data and handle interactions between diverse environmental variables without requiring explicit specification.</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#model-tuning-1.-build-a-model-for-your-chosen-specification.-define-a-tunable-model" id="toc-model-tuning-1.-build-a-model-for-your-chosen-specification.-define-a-tunable-model" class="nav-link" data-scroll-target="#model-tuning-1.-build-a-model-for-your-chosen-specification.-define-a-tunable-model">Model Tuning ###1. Build a model for your chosen specification. #### Define a tunable model</a>
+  <ul>
+  <li><a href="#create-a-workflow-create-a-workflow-object-using-the-workflow-that-adds-your-recipe-and-tunable-model." id="toc-create-a-workflow-create-a-workflow-object-using-the-workflow-that-adds-your-recipe-and-tunable-model." class="nav-link" data-scroll-target="#create-a-workflow-create-a-workflow-object-using-the-workflow-that-adds-your-recipe-and-tunable-model.">2. Create a workflow ####Create a workflow object using the workflow() that adds your recipe and tunable model.</a></li>
+  <li><a href="#check-the-tunable-values-ranges-use-the-extract_parameter_set_dialsyour-model-workflow-and-save-it-to-an-object-named-dials.-check-the-dialsobject-slot-to-see-the-tunable-parameters-and-their-ranges." id="toc-check-the-tunable-values-ranges-use-the-extract_parameter_set_dialsyour-model-workflow-and-save-it-to-an-object-named-dials.-check-the-dialsobject-slot-to-see-the-tunable-parameters-and-their-ranges." class="nav-link" data-scroll-target="#check-the-tunable-values-ranges-use-the-extract_parameter_set_dialsyour-model-workflow-and-save-it-to-an-object-named-dials.-check-the-dialsobject-slot-to-see-the-tunable-parameters-and-their-ranges.">3. Check The Tunable Values / Ranges ####Use the extract_parameter_set_dials(YOUR MODEL WORKFLOW) and save it to an object named dials. Check the dials$object slot to see the tunable parameters and their ranges.</a></li>
+  <li><a href="#define-the-search-space-create-a-sfd-grid-object-with-25-predefined-combinations." id="toc-define-the-search-space-create-a-sfd-grid-object-with-25-predefined-combinations." class="nav-link" data-scroll-target="#define-the-search-space-create-a-sfd-grid-object-with-25-predefined-combinations.">4. Define the Search Space ####Create a SFD Grid Object with 25 predefined combinations.</a></li>
+  <li><a href="#tune-the-model" id="toc-tune-the-model" class="nav-link" data-scroll-target="#tune-the-model">5. Tune the Model</a>
+  <ul class="collapse">
+  <li><a href="#use-the-tune_grid-function-to-search-the-grid-and-evaluate-the-model-performance-using-the-code-below.-in-this-example-we-are-doing-2-additional-things.-setting-a-set-of-metrics-to-compute-and-saving-the-predictions-to-a-output-tibble." id="toc-use-the-tune_grid-function-to-search-the-grid-and-evaluate-the-model-performance-using-the-code-below.-in-this-example-we-are-doing-2-additional-things.-setting-a-set-of-metrics-to-compute-and-saving-the-predictions-to-a-output-tibble." class="nav-link" data-scroll-target="#use-the-tune_grid-function-to-search-the-grid-and-evaluate-the-model-performance-using-the-code-below.-in-this-example-we-are-doing-2-additional-things.-setting-a-set-of-metrics-to-compute-and-saving-the-predictions-to-a-output-tibble.">Use the tune_grid() function to search the grid and evaluate the model performance using the code below. In this example, we are doing 2 additional things. Setting a set of metrics to compute and saving the predictions to a output tibble.</a></li>
+  <li><a href="#describe-what-you-see-the-random-forest-model-performs-best-with-10-20-predictors-mtry-showing-lower-errors-and-higher-r²-values-in-this-range.-performance-worsens-with-fewer-predictors-while-minimal-node-size-shows-inconsistent-effects-across-different-values." id="toc-describe-what-you-see-the-random-forest-model-performs-best-with-10-20-predictors-mtry-showing-lower-errors-and-higher-r²-values-in-this-range.-performance-worsens-with-fewer-predictors-while-minimal-node-size-shows-inconsistent-effects-across-different-values." class="nav-link" data-scroll-target="#describe-what-you-see-the-random-forest-model-performs-best-with-10-20-predictors-mtry-showing-lower-errors-and-higher-r²-values-in-this-range.-performance-worsens-with-fewer-predictors-while-minimal-node-size-shows-inconsistent-effects-across-different-values.">Describe what you see! – The random forest model performs best with 10-20 predictors (mtry), showing lower errors and higher R² values in this range. Performance worsens with fewer predictors, while minimal node size shows inconsistent effects across different values.</a></li>
+  </ul></li>
+  <li><a href="#check-the-skill-of-the-tuned-model" id="toc-check-the-skill-of-the-tuned-model" class="nav-link" data-scroll-target="#check-the-skill-of-the-tuned-model">6. Check the skill of the tuned model</a>
+  <ul class="collapse">
+  <li><a href="#use-the-collect_metrics-function-to-check-the-skill-of-the-tuned-model.-describe-what-you-see-remember-dplyr-functions-like-arrange-slice_-and-filter-will-work-on-this-tibble." id="toc-use-the-collect_metrics-function-to-check-the-skill-of-the-tuned-model.-describe-what-you-see-remember-dplyr-functions-like-arrange-slice_-and-filter-will-work-on-this-tibble." class="nav-link" data-scroll-target="#use-the-collect_metrics-function-to-check-the-skill-of-the-tuned-model.-describe-what-you-see-remember-dplyr-functions-like-arrange-slice_-and-filter-will-work-on-this-tibble.">Use the collect_metrics() function to check the skill of the tuned model. Describe what you see, remember dplyr functions like arrange, slice_*, and filter will work on this tibble.</a></li>
+  <li><a href="#use-the-show_best-function-to-show-the-best-performing-model-based-on-mean-absolute-error." id="toc-use-the-show_best-function-to-show-the-best-performing-model-based-on-mean-absolute-error." class="nav-link" data-scroll-target="#use-the-show_best-function-to-show-the-best-performing-model-based-on-mean-absolute-error.">Use the show_best() function to show the best performing model based on Mean Absolute Error.</a></li>
+  <li><a href="#please-interpret-the-results-of-the-first-row-of-show_best.-what-do-you-see-what-hyperparameter-set-is-best-for-this-model-based-on-mae-the-first-row-of-show_best-shows-the-best-performing-model-has-an-mtry-value-of-around-15-and-min_n-of-approximately-20.-this-combination-produced-the-lowest-mae-meaning-it-makes-predictions-that-are-on-average-closest-to-the-actual-values.-this-optimal-parameter-set-balances-using-enough-variables-at-each-split-while-maintaining-sufficient-data-in-each-node." id="toc-please-interpret-the-results-of-the-first-row-of-show_best.-what-do-you-see-what-hyperparameter-set-is-best-for-this-model-based-on-mae-the-first-row-of-show_best-shows-the-best-performing-model-has-an-mtry-value-of-around-15-and-min_n-of-approximately-20.-this-combination-produced-the-lowest-mae-meaning-it-makes-predictions-that-are-on-average-closest-to-the-actual-values.-this-optimal-parameter-set-balances-using-enough-variables-at-each-split-while-maintaining-sufficient-data-in-each-node." class="nav-link" data-scroll-target="#please-interpret-the-results-of-the-first-row-of-show_best.-what-do-you-see-what-hyperparameter-set-is-best-for-this-model-based-on-mae-the-first-row-of-show_best-shows-the-best-performing-model-has-an-mtry-value-of-around-15-and-min_n-of-approximately-20.-this-combination-produced-the-lowest-mae-meaning-it-makes-predictions-that-are-on-average-closest-to-the-actual-values.-this-optimal-parameter-set-balances-using-enough-variables-at-each-split-while-maintaining-sufficient-data-in-each-node.">Please interpret the results of the first row of show_best(). What do you see? What hyperparameter set is best for this model, based on MAE? – The first row of show_best() shows the best performing model has an mtry value of around 15 and min_n of approximately 20. This combination produced the lowest MAE, meaning it makes predictions that are, on average, closest to the actual values. This optimal parameter set balances using enough variables at each split while maintaining sufficient data in each node.</a></li>
+  <li><a href="#use-the-select_best-function-to-save-the-best-performing-hyperparameter-set-to-an-object-called-hp_best." id="toc-use-the-select_best-function-to-save-the-best-performing-hyperparameter-set-to-an-object-called-hp_best." class="nav-link" data-scroll-target="#use-the-select_best-function-to-save-the-best-performing-hyperparameter-set-to-an-object-called-hp_best.">Use the select_best() function to save the best performing hyperparameter set to an object called hp_best.</a></li>
+  </ul></li>
+  <li><a href="#finalize-your-model" id="toc-finalize-your-model" class="nav-link" data-scroll-target="#finalize-your-model">7. Finalize your model</a>
+  <ul class="collapse">
+  <li><a href="#run-finalize_workflow-based-on-your-workflow-and-best-hyperparmater-set-to-create-a-final-workflow-object." id="toc-run-finalize_workflow-based-on-your-workflow-and-best-hyperparmater-set-to-create-a-final-workflow-object." class="nav-link" data-scroll-target="#run-finalize_workflow-based-on-your-workflow-and-best-hyperparmater-set-to-create-a-final-workflow-object.">Run finalize_workflow() based on your workflow and best hyperparmater set to create a final workflow object.</a></li>
+  </ul></li>
+  <li><a href="#final-model-verification" id="toc-final-model-verification" class="nav-link" data-scroll-target="#final-model-verification">Final Model Verification</a>
+  <ul class="collapse">
+  <li><a href="#use-last_fit-to-fit-the-finalized-workflow-the-original-split-object-output-of-initial_split.-this-will-fit-the-model-to-the-training-data-and-validate-it-on-the-testing-data." id="toc-use-last_fit-to-fit-the-finalized-workflow-the-original-split-object-output-of-initial_split.-this-will-fit-the-model-to-the-training-data-and-validate-it-on-the-testing-data." class="nav-link" data-scroll-target="#use-last_fit-to-fit-the-finalized-workflow-the-original-split-object-output-of-initial_split.-this-will-fit-the-model-to-the-training-data-and-validate-it-on-the-testing-data.">Use last_fit() to fit the finalized workflow the original split object (output of initial_split()). This will fit the model to the training data and validate it on the testing data.</a></li>
+  <li><a href="#use-the-collect_metrics-function-to-check-the-performance-of-the-final-model-on-the-test-data.-this-will-return-a-tibble-with-the-metrics-for-the-final-model." id="toc-use-the-collect_metrics-function-to-check-the-performance-of-the-final-model-on-the-test-data.-this-will-return-a-tibble-with-the-metrics-for-the-final-model." class="nav-link" data-scroll-target="#use-the-collect_metrics-function-to-check-the-performance-of-the-final-model-on-the-test-data.-this-will-return-a-tibble-with-the-metrics-for-the-final-model.">Use the collect_metrics() function to check the performance of the final model on the test data. This will return a tibble with the metrics for the final model.</a></li>
+  <li><a href="#interpret-these-results.-how-does-the-final-model-perform-on-the-test-data-is-it-better-or-worse-than-the-training-data-use-your-knowledge-of-the-regression-based-metrics-to-describe-the-results.-the-final-random-forest-model-shows-an-excellent-level-of-performance-on-the-test-data-with-an-rmse-of-0.159-which-indicates-a-relatively-small-level-of-prediction-errors.-the-r²-value-of-0.988-reveals-that-the-model-explains-approximately-98.8-of-the-variance-in-streamflow-q_mean.-this-suggests-the-model-has-generalized-extremely-well-to-unseen-data-maintaining-high-accuracy-without-overfitting-to-the-training-data.-the-high-r²-value-indicates-the-model-captures-nearly-all-the-explainable-variation-in-streamflow-based-on-the-available-predictors." id="toc-interpret-these-results.-how-does-the-final-model-perform-on-the-test-data-is-it-better-or-worse-than-the-training-data-use-your-knowledge-of-the-regression-based-metrics-to-describe-the-results.-the-final-random-forest-model-shows-an-excellent-level-of-performance-on-the-test-data-with-an-rmse-of-0.159-which-indicates-a-relatively-small-level-of-prediction-errors.-the-r²-value-of-0.988-reveals-that-the-model-explains-approximately-98.8-of-the-variance-in-streamflow-q_mean.-this-suggests-the-model-has-generalized-extremely-well-to-unseen-data-maintaining-high-accuracy-without-overfitting-to-the-training-data.-the-high-r²-value-indicates-the-model-captures-nearly-all-the-explainable-variation-in-streamflow-based-on-the-available-predictors." class="nav-link" data-scroll-target="#interpret-these-results.-how-does-the-final-model-perform-on-the-test-data-is-it-better-or-worse-than-the-training-data-use-your-knowledge-of-the-regression-based-metrics-to-describe-the-results.-the-final-random-forest-model-shows-an-excellent-level-of-performance-on-the-test-data-with-an-rmse-of-0.159-which-indicates-a-relatively-small-level-of-prediction-errors.-the-r²-value-of-0.988-reveals-that-the-model-explains-approximately-98.8-of-the-variance-in-streamflow-q_mean.-this-suggests-the-model-has-generalized-extremely-well-to-unseen-data-maintaining-high-accuracy-without-overfitting-to-the-training-data.-the-high-r²-value-indicates-the-model-captures-nearly-all-the-explainable-variation-in-streamflow-based-on-the-available-predictors.">Interpret these results. How does the final model perform on the test data? Is it better or worse than the training data? Use your knowledge of the regression based metrics to describe the results. – The final random forest model shows an excellent level of performance on the test data with an RMSE of 0.159, which indicates a relatively small level of prediction errors. The R² value of 0.988 reveals that the model explains approximately 98.8% of the variance in streamflow (q_mean). This suggests the model has generalized extremely well to unseen data, maintaining high accuracy without overfitting to the training data. The high R² value indicates the model captures nearly all the explainable variation in streamflow based on the available predictors.</a></li>
+  <li><a href="#use-the-collect_predictions-function-to-check-the-predictions-of-the-final-model-on-the-test-data.-this-will-return-a-tibble-with-the-predictions-for-the-final-model." id="toc-use-the-collect_predictions-function-to-check-the-predictions-of-the-final-model-on-the-test-data.-this-will-return-a-tibble-with-the-predictions-for-the-final-model." class="nav-link" data-scroll-target="#use-the-collect_predictions-function-to-check-the-predictions-of-the-final-model-on-the-test-data.-this-will-return-a-tibble-with-the-predictions-for-the-final-model.">Use the collect_predictions() function to check the predictions of the final model on the test data. This will return a tibble with the predictions for the final model.</a></li>
+  <li><a href="#use-the-output-of-this-to-create-a-scatter-plot-of-the-predicted-values-vs-the-actual-values.-use-the-ggplot2-package-to-create-the-plot.-this-plot-should-include-1-geom_smoothmethod-lm-to-add-the-linear-fit-of-predictions-and-truth-2-geom_abline-to-add-a-11-line-3-nice-colors-via-scale_color_-and-4-accurate-labels." id="toc-use-the-output-of-this-to-create-a-scatter-plot-of-the-predicted-values-vs-the-actual-values.-use-the-ggplot2-package-to-create-the-plot.-this-plot-should-include-1-geom_smoothmethod-lm-to-add-the-linear-fit-of-predictions-and-truth-2-geom_abline-to-add-a-11-line-3-nice-colors-via-scale_color_-and-4-accurate-labels." class="nav-link" data-scroll-target="#use-the-output-of-this-to-create-a-scatter-plot-of-the-predicted-values-vs-the-actual-values.-use-the-ggplot2-package-to-create-the-plot.-this-plot-should-include-1-geom_smoothmethod-lm-to-add-the-linear-fit-of-predictions-and-truth-2-geom_abline-to-add-a-11-line-3-nice-colors-via-scale_color_-and-4-accurate-labels.">Use the output of this to create a scatter plot of the predicted values vs the actual values. Use the ggplot2 package to create the plot. This plot should include (1) geom_smooth(method = “lm”) to add the linear fit of predictions and truth (2) geom_abline() to add a 1:1 line (3) nice colors via scale_color_* and (4) accurate labels.</a></li>
+  </ul></li>
+  <li><a href="#building-a-map" id="toc-building-a-map" class="nav-link" data-scroll-target="#building-a-map">Building a Map!</a>
+  <ul class="collapse">
+  <li><a href="#this-full-fit-can-be-passed-to-the-augment-function-to-make-predictions-on-the-full-cleaned-data.-this-will-return-a-tibble-with-the-predictions-for-the-full-data." id="toc-this-full-fit-can-be-passed-to-the-augment-function-to-make-predictions-on-the-full-cleaned-data.-this-will-return-a-tibble-with-the-predictions-for-the-full-data." class="nav-link" data-scroll-target="#this-full-fit-can-be-passed-to-the-augment-function-to-make-predictions-on-the-full-cleaned-data.-this-will-return-a-tibble-with-the-predictions-for-the-full-data.">This full fit can be passed to the augment() function to make predictions on the full, cleaned data. This will return a tibble with the predictions for the full data.</a></li>
+  <li><a href="#use-the-mutate-function-to-calculate-the-residuals-of-the-predictions.-the-residuals-are-the-difference-between-the-predicted-values-and-the-actual-values-squared." id="toc-use-the-mutate-function-to-calculate-the-residuals-of-the-predictions.-the-residuals-are-the-difference-between-the-predicted-values-and-the-actual-values-squared." class="nav-link" data-scroll-target="#use-the-mutate-function-to-calculate-the-residuals-of-the-predictions.-the-residuals-are-the-difference-between-the-predicted-values-and-the-actual-values-squared.">Use the mutate() function to calculate the residuals of the predictions. The residuals are the difference between the predicted values and the actual values squared.</a></li>
+  <li><a href="#use-ggplot2-to-create-a-map-of-the-predictions." id="toc-use-ggplot2-to-create-a-map-of-the-predictions." class="nav-link" data-scroll-target="#use-ggplot2-to-create-a-map-of-the-predictions.">Use ggplot2 to create a map of the predictions.</a></li>
+  <li><a href="#use-ggplot2-to-create-a-map-of-the-residuals." id="toc-use-ggplot2-to-create-a-map-of-the-residuals." class="nav-link" data-scroll-target="#use-ggplot2-to-create-a-map-of-the-residuals.">Use ggplot2 to create a map of the residuals.</a></li>
+  <li><a href="#use-patchwork-to-combine-the-two-maps-into-one-figure." id="toc-use-patchwork-to-combine-the-two-maps-into-one-figure." class="nav-link" data-scroll-target="#use-patchwork-to-combine-the-two-maps-into-one-figure.">Use patchwork to combine the two maps into one figure.</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
@@ -4813,15 +4886,17 @@ vertical-align: -.125em;
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Learn how to get started at https://www.tidymodels.org/start/</code></pre>
+• Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(visdat)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(powerjoin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>##Data Import/Tidy/Transform</p>
-<p>###Read in the data</p>
+<section id="data-importtidytransform" class="level2">
+<h2 class="anchored" data-anchor-id="data-importtidytransform">Data Import/Tidy/Transform</h2>
+<section id="read-in-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="read-in-the-data">Read in the data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>file_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;camels_clim&quot;</span>, <span class="st">&quot;camels_hydro&quot;</span>, <span class="st">&quot;camels_soil&quot;</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -4898,7 +4973,9 @@ $ organic_frac         &lt;dbl&gt; 0.4087168, 0.0000000, 1.3302776, 0.0000000, 0
 $ other_frac           &lt;dbl&gt; 0.0000000, 0.3584723, 0.0220161, 0.0000000, 0.147…</code></pre>
 </div>
 </div>
-<p>###Clean the data</p>
+</section>
+<section id="clean-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="clean-the-data">Clean the data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_combined)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -4926,12 +5003,18 @@ $ other_frac           &lt;dbl&gt; 0.0000000, 0.3584723, 0.0220161, 0.0000000, 0
 <pre><code>list()</code></pre>
 </div>
 </div>
-<p>##Data Spliting</p>
-<p>###Set a seed</p>
+</section>
+</section>
+<section id="data-spliting" class="level2">
+<h2 class="anchored" data-anchor-id="data-spliting">Data Spliting</h2>
+<section id="set-a-seed" class="level3">
+<h3 class="anchored" data-anchor-id="set-a-seed">Set a seed</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>###Use the initial_split() function from the rsample package to split the data. Use 80% of the data for training and 20% for testing.</p>
+</section>
+<section id="use-the-initial_split-function-from-the-rsample-package-to-split-the-data.-use-80-of-the-data-for-training-and-20-for-testing." class="level3">
+<h3 class="anchored" data-anchor-id="use-the-initial_split-function-from-the-rsample-package-to-split-the-data.-use-80-of-the-data-for-training-and-20-for-testing.">Use the initial_split() function from the rsample package to split the data. Use 80% of the data for training and 20% for testing.</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(data_combined_clean, <span class="at">prop =</span> <span class="fl">0.8</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -4947,7 +5030,9 @@ $ other_frac           &lt;dbl&gt; 0.0000000, 0.3584723, 0.0220161, 0.0000000, 0
 <pre><code>[1] 134  36</code></pre>
 </div>
 </div>
-<p>###Use the training() and testing() functions from the rsample package to extract the training and testing data.frames.</p>
+</section>
+<section id="use-the-training-and-testing-functions-from-the-rsample-package-to-extract-the-training-and-testing-data.frames." class="level3">
+<h3 class="anchored" data-anchor-id="use-the-training-and-testing-functions-from-the-rsample-package-to-extract-the-training-and-testing-data.frames.">Use the training() and testing() functions from the rsample package to extract the training and testing data.frames.</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">training</span>(data_split)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">testing</span>(data_split)</span>
@@ -4961,8 +5046,12 @@ $ other_frac           &lt;dbl&gt; 0.0000000, 0.3584723, 0.0220161, 0.0000000, 0
 <pre><code>[1] 134  36</code></pre>
 </div>
 </div>
-<p>##Feature Engineering</p>
-<p>###Use the recipe() function from the recipes package to create a recipe object.</p>
+</section>
+</section>
+<section id="feature-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="feature-engineering">Feature Engineering</h2>
+<section id="use-the-recipe-function-from-the-recipes-package-to-create-a-recipe-object." class="level3">
+<h3 class="anchored" data-anchor-id="use-the-recipe-function-from-the-recipes-package-to-create-a-recipe-object.">Use the recipe() function from the recipes package to create a recipe object.</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>model_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(q_mean <span class="sc">~</span> ., <span class="at">data =</span> train_data) <span class="sc">%&gt;%</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_rm</span>(gauge_id) <span class="sc">%&gt;%</span></span>
@@ -5017,8 +5106,13 @@ predictor: 35</code></pre>
 <pre><code>• Centering and scaling for: all_numeric_predictors()</code></pre>
 </div>
 </div>
-<p>####You should not use gauge_lat and gauge_lon in the recipe as predictors. You can use the step_rm() function to remove them from the recipe while ensureing they persist in any data passed throuhg fit_*. – DONE</p>
-<p>##Resampling and Model Testing ###1. Build resamples</p>
+<section id="you-should-not-use-gauge_lat-and-gauge_lon-in-the-recipe-as-predictors.-you-can-use-the-step_rm-function-to-remove-them-from-the-recipe-while-ensureing-they-persist-in-any-data-passed-throuhg-fit_.-done" class="level4">
+<h4 class="anchored" data-anchor-id="you-should-not-use-gauge_lat-and-gauge_lon-in-the-recipe-as-predictors.-you-can-use-the-step_rm-function-to-remove-them-from-the-recipe-while-ensureing-they-persist-in-any-data-passed-throuhg-fit_.-done">You should not use gauge_lat and gauge_lon in the recipe as predictors. You can use the step_rm() function to remove them from the recipe while ensureing they persist in any data passed throuhg fit_*. – DONE</h4>
+</section>
+</section>
+</section>
+<section id="resampling-and-model-testing-1.-build-resamples" class="level2">
+<h2 class="anchored" data-anchor-id="resampling-and-model-testing-1.-build-resamples">Resampling and Model Testing ###1. Build resamples</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">234</span>)  </span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>cv_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(train_data, <span class="at">v =</span> <span class="dv">10</span>)</span>
@@ -5041,7 +5135,8 @@ predictor: 35</code></pre>
 10 &lt;split [483/53]&gt; Fold10</code></pre>
 </div>
 </div>
-<p>###2. Build 3 Candidate Models ####Define 3 models that you feel have the best chance of performing well on the data. You can use any of the models we have learned about in class. – Linear regression is a baseline model that can be effective if there is a linear relationship between the predictors and the outcome variable. It is fast to compute and interpretable. Random forests are ensemble models that can handle complex, non-linear relationships and interactions between predictors. It also handles missing data well and is relatively robust to overfitting. Boosted trees (like XGBoost) can perform well on structured/tabular data and often provide strong predictive performance. They work by combining multiple weak learners (decision trees) to create a strong model, typically outperforming random forests in terms of accuracy.</p>
+<section id="build-3-candidate-models-define-3-models-that-you-feel-have-the-best-chance-of-performing-well-on-the-data.-you-can-use-any-of-the-models-we-have-learned-about-in-class.-linear-regression-is-a-baseline-model-that-can-be-effective-if-there-is-a-linear-relationship-between-the-predictors-and-the-outcome-variable.-it-is-fast-to-compute-and-interpretable.-random-forests-are-ensemble-models-that-can-handle-complex-non-linear-relationships-and-interactions-between-predictors.-it-also-handles-missing-data-well-and-is-relatively-robust-to-overfitting.-boosted-trees-like-xgboost-can-perform-well-on-structuredtabular-data-and-often-provide-strong-predictive-performance.-they-work-by-combining-multiple-weak-learners-decision-trees-to-create-a-strong-model-typically-outperforming-random-forests-in-terms-of-accuracy." class="level3">
+<h3 class="anchored" data-anchor-id="build-3-candidate-models-define-3-models-that-you-feel-have-the-best-chance-of-performing-well-on-the-data.-you-can-use-any-of-the-models-we-have-learned-about-in-class.-linear-regression-is-a-baseline-model-that-can-be-effective-if-there-is-a-linear-relationship-between-the-predictors-and-the-outcome-variable.-it-is-fast-to-compute-and-interpretable.-random-forests-are-ensemble-models-that-can-handle-complex-non-linear-relationships-and-interactions-between-predictors.-it-also-handles-missing-data-well-and-is-relatively-robust-to-overfitting.-boosted-trees-like-xgboost-can-perform-well-on-structuredtabular-data-and-often-provide-strong-predictive-performance.-they-work-by-combining-multiple-weak-learners-decision-trees-to-create-a-strong-model-typically-outperforming-random-forests-in-terms-of-accuracy.">2. Build 3 Candidate Models ####Define 3 models that you feel have the best chance of performing well on the data. You can use any of the models we have learned about in class. – Linear regression is a baseline model that can be effective if there is a linear relationship between the predictors and the outcome variable. It is fast to compute and interpretable. Random forests are ensemble models that can handle complex, non-linear relationships and interactions between predictors. It also handles missing data well and is relatively robust to overfitting. Boosted trees (like XGBoost) can perform well on structured/tabular data and often provide strong predictive performance. They work by combining multiple weak learners (decision trees) to create a strong model, typically outperforming random forests in terms of accuracy.</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>linear_model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">&quot;lm&quot;</span>) <span class="sc">%&gt;%</span></span>
@@ -5055,7 +5150,9 @@ predictor: 35</code></pre>
 <span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">&quot;xgboost&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">&quot;regression&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>###3. Test the models ####Use the workflow_set() function to test your three models against the recipe. You will use the workflow_map() function to map the models to the recipe and resamples.</p>
+</section>
+<section id="test-the-models-use-the-workflow_set-function-to-test-your-three-models-against-the-recipe.-you-will-use-the-workflow_map-function-to-map-the-models-to-the-recipe-and-resamples." class="level3">
+<h3 class="anchored" data-anchor-id="test-the-models-use-the-workflow_set-function-to-test-your-three-models-against-the-recipe.-you-will-use-the-workflow_map-function-to-map-the-models-to-the-recipe-and-resamples.">3. Test the models ####Use the workflow_set() function to test your three models against the recipe. You will use the workflow_map() function to map the models to the recipe and resamples.</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>model_workflows <span class="ot">&lt;-</span> <span class="fu">workflow_set</span>(</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">preproc =</span> <span class="fu">list</span>(<span class="at">recipe =</span> model_recipe),</span>
@@ -5074,7 +5171,8 @@ predictor: 35</code></pre>
 <span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">control =</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>####Once complete, use autoplot to visualize the results of the workflow set.</p>
+<section id="once-complete-use-autoplot-to-visualize-the-results-of-the-workflow-set." class="level4">
+<h4 class="anchored" data-anchor-id="once-complete-use-autoplot-to-visualize-the-results-of-the-workflow-set.">Once complete, use autoplot to visualize the results of the workflow set.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(model_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -5085,9 +5183,17 @@ predictor: 35</code></pre>
 </div>
 </div>
 </div>
-<p>###4. Model Selection ####Based on the visualized metrics, select a model that you think best performs. Describe the reason for your choice using the metrics. – Based on the visualization of model performance metrics, I would select the random forest model as it demonstrates the lowest RMSE and MAE values while achieving the highest R-squared score. The random forest’s performance being significantly better likely stems from its ability to capture the non-linear relationships in hydrological data and effectively model the complex interactions between soil, climate, and water flow variables.</p>
-<p>####Describe the model you selected. What is the model type, engine, and mode. Why do you think it is performing well for this problem? – I selected the random forest model (rand_forest()) with the “ranger” engine in regression mode, which likely outperforms the alternatives due to its ability to capture complex non-linear relationships in hydrological data and handle interactions between diverse environmental variables without requiring explicit specification.</p>
-<p>##Model Tuning ###1. Build a model for your chosen specification. ####Define a tunable model</p>
+</section>
+</section>
+<section id="model-selection-based-on-the-visualized-metrics-select-a-model-that-you-think-best-performs.-describe-the-reason-for-your-choice-using-the-metrics.-based-on-the-visualization-of-model-performance-metrics-i-would-select-the-random-forest-model-as-it-demonstrates-the-lowest-rmse-and-mae-values-while-achieving-the-highest-r-squared-score.-the-random-forests-performance-being-significantly-better-likely-stems-from-its-ability-to-capture-the-non-linear-relationships-in-hydrological-data-and-effectively-model-the-complex-interactions-between-soil-climate-and-water-flow-variables." class="level3">
+<h3 class="anchored" data-anchor-id="model-selection-based-on-the-visualized-metrics-select-a-model-that-you-think-best-performs.-describe-the-reason-for-your-choice-using-the-metrics.-based-on-the-visualization-of-model-performance-metrics-i-would-select-the-random-forest-model-as-it-demonstrates-the-lowest-rmse-and-mae-values-while-achieving-the-highest-r-squared-score.-the-random-forests-performance-being-significantly-better-likely-stems-from-its-ability-to-capture-the-non-linear-relationships-in-hydrological-data-and-effectively-model-the-complex-interactions-between-soil-climate-and-water-flow-variables.">4. Model Selection ####Based on the visualized metrics, select a model that you think best performs. Describe the reason for your choice using the metrics. – Based on the visualization of model performance metrics, I would select the random forest model as it demonstrates the lowest RMSE and MAE values while achieving the highest R-squared score. The random forest’s performance being significantly better likely stems from its ability to capture the non-linear relationships in hydrological data and effectively model the complex interactions between soil, climate, and water flow variables.</h3>
+<section id="describe-the-model-you-selected.-what-is-the-model-type-engine-and-mode.-why-do-you-think-it-is-performing-well-for-this-problem-i-selected-the-random-forest-model-rand_forest-with-the-ranger-engine-in-regression-mode-which-likely-outperforms-the-alternatives-due-to-its-ability-to-capture-complex-non-linear-relationships-in-hydrological-data-and-handle-interactions-between-diverse-environmental-variables-without-requiring-explicit-specification." class="level4">
+<h4 class="anchored" data-anchor-id="describe-the-model-you-selected.-what-is-the-model-type-engine-and-mode.-why-do-you-think-it-is-performing-well-for-this-problem-i-selected-the-random-forest-model-rand_forest-with-the-ranger-engine-in-regression-mode-which-likely-outperforms-the-alternatives-due-to-its-ability-to-capture-complex-non-linear-relationships-in-hydrological-data-and-handle-interactions-between-diverse-environmental-variables-without-requiring-explicit-specification.">Describe the model you selected. What is the model type, engine, and mode. Why do you think it is performing well for this problem? – I selected the random forest model (rand_forest()) with the “ranger” engine in regression mode, which likely outperforms the alternatives due to its ability to capture complex non-linear relationships in hydrological data and handle interactions between diverse environmental variables without requiring explicit specification.</h4>
+</section>
+</section>
+</section>
+<section id="model-tuning-1.-build-a-model-for-your-chosen-specification.-define-a-tunable-model" class="level2">
+<h2 class="anchored" data-anchor-id="model-tuning-1.-build-a-model-for-your-chosen-specification.-define-a-tunable-model">Model Tuning ###1. Build a model for your chosen specification. #### Define a tunable model</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>rf_tunable <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mtry =</span> <span class="fu">tune</span>(),        </span>
@@ -5097,13 +5203,16 @@ predictor: 35</code></pre>
 <span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">&quot;ranger&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">&quot;regression&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>###2. Create a workflow ####Create a workflow object using the workflow() that adds your recipe and tunable model.</p>
+<section id="create-a-workflow-create-a-workflow-object-using-the-workflow-that-adds-your-recipe-and-tunable-model." class="level3">
+<h3 class="anchored" data-anchor-id="create-a-workflow-create-a-workflow-object-using-the-workflow-that-adds-your-recipe-and-tunable-model.">2. Create a workflow ####Create a workflow object using the workflow() that adds your recipe and tunable model.</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>rf_tuning_workflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(model_recipe) <span class="sc">%&gt;%</span></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(rf_tunable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>###3. Check The Tunable Values / Ranges ####Use the extract_parameter_set_dials(YOUR MODEL WORKFLOW) and save it to an object named dials. Check the dials$object slot to see the tunable parameters and their ranges.</p>
+</section>
+<section id="check-the-tunable-values-ranges-use-the-extract_parameter_set_dialsyour-model-workflow-and-save-it-to-an-object-named-dials.-check-the-dialsobject-slot-to-see-the-tunable-parameters-and-their-ranges." class="level3">
+<h3 class="anchored" data-anchor-id="check-the-tunable-values-ranges-use-the-extract_parameter_set_dialsyour-model-workflow-and-save-it-to-an-object-named-dials.-check-the-dialsobject-slot-to-see-the-tunable-parameters-and-their-ranges.">3. Check The Tunable Values / Ranges ####Use the extract_parameter_set_dials(YOUR MODEL WORKFLOW) and save it to an object named dials. Check the dials$object slot to see the tunable parameters and their ranges.</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>rf_params <span class="ot">&lt;-</span> <span class="fu">extract_parameter_set_dials</span>(rf_tuning_workflow)</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>rf_params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -5154,7 +5263,9 @@ predictor: 35</code></pre>
 <pre><code>Range: [2, 40]</code></pre>
 </div>
 </div>
-<p>###4. Define the Search Space ####Create a SFD Grid Object with 25 predefined combinations.</p>
+</section>
+<section id="define-the-search-space-create-a-sfd-grid-object-with-25-predefined-combinations." class="level3">
+<h3 class="anchored" data-anchor-id="define-the-search-space-create-a-sfd-grid-object-with-25-predefined-combinations.">4. Define the Search Space ####Create a SFD Grid Object with 25 predefined combinations.</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>rf_params <span class="ot">&lt;-</span> <span class="fu">parameters</span>(</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtry</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">20</span>)),  </span>
@@ -5166,7 +5277,11 @@ predictor: 35</code></pre>
 <span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> <span class="dv">25</span></span>
 <span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>###5. Tune the Model ####Use the tune_grid() function to search the grid and evaluate the model performance using the code below. In this example, we are doing 2 additional things. Setting a set of metrics to compute and saving the predictions to a output tibble.</p>
+</section>
+<section id="tune-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="tune-the-model">5. Tune the Model</h3>
+<section id="use-the-tune_grid-function-to-search-the-grid-and-evaluate-the-model-performance-using-the-code-below.-in-this-example-we-are-doing-2-additional-things.-setting-a-set-of-metrics-to-compute-and-saving-the-predictions-to-a-output-tibble." class="level4">
+<h4 class="anchored" data-anchor-id="use-the-tune_grid-function-to-search-the-grid-and-evaluate-the-model-performance-using-the-code-below.-in-this-example-we-are-doing-2-additional-things.-setting-a-set-of-metrics-to-compute-and-saving-the-predictions-to-a-output-tibble.">Use the tune_grid() function to search the grid and evaluate the model performance using the code below. In this example, we are doing 2 additional things. Setting a set of metrics to compute and saving the predictions to a output tibble.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>model_params <span class="ot">&lt;-</span> <span class="fu">tune_grid</span>(</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  rf_tuning_workflow,  </span>
@@ -5185,8 +5300,15 @@ predictor: 35</code></pre>
 </div>
 </div>
 </div>
-<p>####Describe what you see! – The random forest model performs best with 10-20 predictors (mtry), showing lower errors and higher R² values in this range. Performance worsens with fewer predictors, while minimal node size shows inconsistent effects across different values.</p>
-<p>###6. Check the skill of the tuned model ####Use the collect_metrics() function to check the skill of the tuned model. Describe what you see, remember dplyr functions like arrange, slice_*, and filter will work on this tibble.</p>
+</section>
+<section id="describe-what-you-see-the-random-forest-model-performs-best-with-10-20-predictors-mtry-showing-lower-errors-and-higher-r²-values-in-this-range.-performance-worsens-with-fewer-predictors-while-minimal-node-size-shows-inconsistent-effects-across-different-values." class="level4">
+<h4 class="anchored" data-anchor-id="describe-what-you-see-the-random-forest-model-performs-best-with-10-20-predictors-mtry-showing-lower-errors-and-higher-r²-values-in-this-range.-performance-worsens-with-fewer-predictors-while-minimal-node-size-shows-inconsistent-effects-across-different-values.">Describe what you see! – The random forest model performs best with 10-20 predictors (mtry), showing lower errors and higher R² values in this range. Performance worsens with fewer predictors, while minimal node size shows inconsistent effects across different values.</h4>
+</section>
+</section>
+<section id="check-the-skill-of-the-tuned-model" class="level3">
+<h3 class="anchored" data-anchor-id="check-the-skill-of-the-tuned-model">6. Check the skill of the tuned model</h3>
+<section id="use-the-collect_metrics-function-to-check-the-skill-of-the-tuned-model.-describe-what-you-see-remember-dplyr-functions-like-arrange-slice_-and-filter-will-work-on-this-tibble." class="level4">
+<h4 class="anchored" data-anchor-id="use-the-collect_metrics-function-to-check-the-skill-of-the-tuned-model.-describe-what-you-see-remember-dplyr-functions-like-arrange-slice_-and-filter-will-work-on-this-tibble.">Use the collect_metrics() function to check the skill of the tuned model. Describe what you see, remember dplyr functions like arrange, slice_*, and filter will work on this tibble.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>metrics_all <span class="ot">&lt;-</span> <span class="fu">collect_metrics</span>(model_params)</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>metrics_all <span class="sc">%&gt;%</span> </span>
@@ -5204,7 +5326,9 @@ predictor: 35</code></pre>
 5    18    22 mae     standard   0.139    10  0.0147 Preprocessor1_Model23</code></pre>
 </div>
 </div>
-<p>####Use the show_best() function to show the best performing model based on Mean Absolute Error.</p>
+</section>
+<section id="use-the-show_best-function-to-show-the-best-performing-model-based-on-mean-absolute-error." class="level4">
+<h4 class="anchored" data-anchor-id="use-the-show_best-function-to-show-the-best-performing-model-based-on-mean-absolute-error.">Use the show_best() function to show the best performing model based on Mean Absolute Error.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>best_mae <span class="ot">&lt;-</span> <span class="fu">show_best</span>(model_params, <span class="at">metric =</span> <span class="st">&quot;mae&quot;</span>)</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>best_mae</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -5219,23 +5343,39 @@ predictor: 35</code></pre>
 5    18    22 mae     standard   0.139    10  0.0147 Preprocessor1_Model23</code></pre>
 </div>
 </div>
-<p>####Please interpret the results of the first row of show_best(). What do you see? What hyperparameter set is best for this model, based on MAE? – The first row of show_best() shows the best performing model has an mtry value of around 15 and min_n of approximately 20. This combination produced the lowest MAE, meaning it makes predictions that are, on average, closest to the actual values. This optimal parameter set balances using enough variables at each split while maintaining sufficient data in each node.</p>
-<p>####Use the select_best() function to save the best performing hyperparameter set to an object called hp_best.</p>
+</section>
+<section id="please-interpret-the-results-of-the-first-row-of-show_best.-what-do-you-see-what-hyperparameter-set-is-best-for-this-model-based-on-mae-the-first-row-of-show_best-shows-the-best-performing-model-has-an-mtry-value-of-around-15-and-min_n-of-approximately-20.-this-combination-produced-the-lowest-mae-meaning-it-makes-predictions-that-are-on-average-closest-to-the-actual-values.-this-optimal-parameter-set-balances-using-enough-variables-at-each-split-while-maintaining-sufficient-data-in-each-node." class="level4">
+<h4 class="anchored" data-anchor-id="please-interpret-the-results-of-the-first-row-of-show_best.-what-do-you-see-what-hyperparameter-set-is-best-for-this-model-based-on-mae-the-first-row-of-show_best-shows-the-best-performing-model-has-an-mtry-value-of-around-15-and-min_n-of-approximately-20.-this-combination-produced-the-lowest-mae-meaning-it-makes-predictions-that-are-on-average-closest-to-the-actual-values.-this-optimal-parameter-set-balances-using-enough-variables-at-each-split-while-maintaining-sufficient-data-in-each-node.">Please interpret the results of the first row of show_best(). What do you see? What hyperparameter set is best for this model, based on MAE? – The first row of show_best() shows the best performing model has an mtry value of around 15 and min_n of approximately 20. This combination produced the lowest MAE, meaning it makes predictions that are, on average, closest to the actual values. This optimal parameter set balances using enough variables at each split while maintaining sufficient data in each node.</h4>
+</section>
+<section id="use-the-select_best-function-to-save-the-best-performing-hyperparameter-set-to-an-object-called-hp_best." class="level4">
+<h4 class="anchored" data-anchor-id="use-the-select_best-function-to-save-the-best-performing-hyperparameter-set-to-an-object-called-hp_best.">Use the select_best() function to save the best performing hyperparameter set to an object called hp_best.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>hp_best <span class="ot">&lt;-</span> <span class="fu">select_best</span>(model_params, <span class="at">metric =</span> <span class="st">&quot;mae&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>###7. Finalize your model ####Run finalize_workflow() based on your workflow and best hyperparmater set to create a final workflow object.</p>
+</section>
+</section>
+<section id="finalize-your-model" class="level3">
+<h3 class="anchored" data-anchor-id="finalize-your-model">7. Finalize your model</h3>
+<section id="run-finalize_workflow-based-on-your-workflow-and-best-hyperparmater-set-to-create-a-final-workflow-object." class="level4">
+<h4 class="anchored" data-anchor-id="run-finalize_workflow-based-on-your-workflow-and-best-hyperparmater-set-to-create-a-final-workflow-object.">Run finalize_workflow() based on your workflow and best hyperparmater set to create a final workflow object.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>final_workflow <span class="ot">&lt;-</span> <span class="fu">finalize_workflow</span>(</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  rf_tuning_workflow,</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  hp_best</span>
 <span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>###Final Model Verification ####Use last_fit() to fit the finalized workflow the original split object (output of initial_split()). This will fit the model to the training data and validate it on the testing data.</p>
+</section>
+</section>
+<section id="final-model-verification" class="level3">
+<h3 class="anchored" data-anchor-id="final-model-verification">Final Model Verification</h3>
+<section id="use-last_fit-to-fit-the-finalized-workflow-the-original-split-object-output-of-initial_split.-this-will-fit-the-model-to-the-training-data-and-validate-it-on-the-testing-data." class="level4">
+<h4 class="anchored" data-anchor-id="use-last_fit-to-fit-the-finalized-workflow-the-original-split-object-output-of-initial_split.-this-will-fit-the-model-to-the-training-data-and-validate-it-on-the-testing-data.">Use last_fit() to fit the finalized workflow the original split object (output of initial_split()). This will fit the model to the training data and validate it on the testing data.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>final_fit <span class="ot">&lt;-</span> <span class="fu">last_fit</span>(final_workflow, data_split)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>####Use the collect_metrics() function to check the performance of the final model on the test data. This will return a tibble with the metrics for the final model.</p>
+</section>
+<section id="use-the-collect_metrics-function-to-check-the-performance-of-the-final-model-on-the-test-data.-this-will-return-a-tibble-with-the-metrics-for-the-final-model." class="level4">
+<h4 class="anchored" data-anchor-id="use-the-collect_metrics-function-to-check-the-performance-of-the-final-model-on-the-test-data.-this-will-return-a-tibble-with-the-metrics-for-the-final-model.">Use the collect_metrics() function to check the performance of the final model on the test data. This will return a tibble with the metrics for the final model.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>test_metrics <span class="ot">&lt;-</span> <span class="fu">collect_metrics</span>(final_fit)</span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>test_metrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -5247,12 +5387,18 @@ predictor: 35</code></pre>
 2 rsq     standard       0.988 Preprocessor1_Model1</code></pre>
 </div>
 </div>
-<p>####Interpret these results. How does the final model perform on the test data? Is it better or worse than the training data? Use your knowledge of the regression based metrics to describe the results. – The final random forest model shows an excellent level of performance on the test data with an RMSE of 0.159, which indicates a relatively small level of prediction errors. The R² value of 0.988 reveals that the model explains approximately 98.8% of the variance in streamflow (q_mean). This suggests the model has generalized extremely well to unseen data, maintaining high accuracy without overfitting to the training data. The high R² value indicates the model captures nearly all the explainable variation in streamflow based on the available predictors.</p>
-<p>####Use the collect_predictions() function to check the predictions of the final model on the test data. This will return a tibble with the predictions for the final model.</p>
+</section>
+<section id="interpret-these-results.-how-does-the-final-model-perform-on-the-test-data-is-it-better-or-worse-than-the-training-data-use-your-knowledge-of-the-regression-based-metrics-to-describe-the-results.-the-final-random-forest-model-shows-an-excellent-level-of-performance-on-the-test-data-with-an-rmse-of-0.159-which-indicates-a-relatively-small-level-of-prediction-errors.-the-r²-value-of-0.988-reveals-that-the-model-explains-approximately-98.8-of-the-variance-in-streamflow-q_mean.-this-suggests-the-model-has-generalized-extremely-well-to-unseen-data-maintaining-high-accuracy-without-overfitting-to-the-training-data.-the-high-r²-value-indicates-the-model-captures-nearly-all-the-explainable-variation-in-streamflow-based-on-the-available-predictors." class="level4">
+<h4 class="anchored" data-anchor-id="interpret-these-results.-how-does-the-final-model-perform-on-the-test-data-is-it-better-or-worse-than-the-training-data-use-your-knowledge-of-the-regression-based-metrics-to-describe-the-results.-the-final-random-forest-model-shows-an-excellent-level-of-performance-on-the-test-data-with-an-rmse-of-0.159-which-indicates-a-relatively-small-level-of-prediction-errors.-the-r²-value-of-0.988-reveals-that-the-model-explains-approximately-98.8-of-the-variance-in-streamflow-q_mean.-this-suggests-the-model-has-generalized-extremely-well-to-unseen-data-maintaining-high-accuracy-without-overfitting-to-the-training-data.-the-high-r²-value-indicates-the-model-captures-nearly-all-the-explainable-variation-in-streamflow-based-on-the-available-predictors.">Interpret these results. How does the final model perform on the test data? Is it better or worse than the training data? Use your knowledge of the regression based metrics to describe the results. – The final random forest model shows an excellent level of performance on the test data with an RMSE of 0.159, which indicates a relatively small level of prediction errors. The R² value of 0.988 reveals that the model explains approximately 98.8% of the variance in streamflow (q_mean). This suggests the model has generalized extremely well to unseen data, maintaining high accuracy without overfitting to the training data. The high R² value indicates the model captures nearly all the explainable variation in streamflow based on the available predictors.</h4>
+</section>
+<section id="use-the-collect_predictions-function-to-check-the-predictions-of-the-final-model-on-the-test-data.-this-will-return-a-tibble-with-the-predictions-for-the-final-model." class="level4">
+<h4 class="anchored" data-anchor-id="use-the-collect_predictions-function-to-check-the-predictions-of-the-final-model-on-the-test-data.-this-will-return-a-tibble-with-the-predictions-for-the-final-model.">Use the collect_predictions() function to check the predictions of the final model on the test data. This will return a tibble with the predictions for the final model.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>test_predictions <span class="ot">&lt;-</span> <span class="fu">collect_predictions</span>(final_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>####Use the output of this to create a scatter plot of the predicted values vs the actual values. Use the ggplot2 package to create the plot. This plot should include (1) geom_smooth(method = “lm”) to add the linear fit of predictions and truth (2) geom_abline() to add a 1:1 line (3) nice colors via scale_color_* and (4) accurate labels.</p>
+</section>
+<section id="use-the-output-of-this-to-create-a-scatter-plot-of-the-predicted-values-vs-the-actual-values.-use-the-ggplot2-package-to-create-the-plot.-this-plot-should-include-1-geom_smoothmethod-lm-to-add-the-linear-fit-of-predictions-and-truth-2-geom_abline-to-add-a-11-line-3-nice-colors-via-scale_color_-and-4-accurate-labels." class="level4">
+<h4 class="anchored" data-anchor-id="use-the-output-of-this-to-create-a-scatter-plot-of-the-predicted-values-vs-the-actual-values.-use-the-ggplot2-package-to-create-the-plot.-this-plot-should-include-1-geom_smoothmethod-lm-to-add-the-linear-fit-of-predictions-and-truth-2-geom_abline-to-add-a-11-line-3-nice-colors-via-scale_color_-and-4-accurate-labels.">Use the output of this to create a scatter plot of the predicted values vs the actual values. Use the ggplot2 package to create the plot. This plot should include (1) geom_smooth(method = “lm”) to add the linear fit of predictions and truth (2) geom_abline() to add a 1:1 line (3) nice colors via scale_color_* and (4) accurate labels.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(test_predictions, <span class="fu">aes</span>(<span class="at">x =</span> q_mean, <span class="at">y =</span> .pred)) <span class="sc">+</span></span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">&quot;darkblue&quot;</span>) <span class="sc">+</span></span>
@@ -5277,17 +5423,26 @@ predictor: 35</code></pre>
 </div>
 </div>
 </div>
-<p>###Building a Map! ####This full fit can be passed to the augment() function to make predictions on the full, cleaned data. This will return a tibble with the predictions for the full data.</p>
+</section>
+</section>
+<section id="building-a-map" class="level3">
+<h3 class="anchored" data-anchor-id="building-a-map">Building a Map!</h3>
+<section id="this-full-fit-can-be-passed-to-the-augment-function-to-make-predictions-on-the-full-cleaned-data.-this-will-return-a-tibble-with-the-predictions-for-the-full-data." class="level4">
+<h4 class="anchored" data-anchor-id="this-full-fit-can-be-passed-to-the-augment-function-to-make-predictions-on-the-full-cleaned-data.-this-will-return-a-tibble-with-the-predictions-for-the-full-data.">This full fit can be passed to the augment() function to make predictions on the full, cleaned data. This will return a tibble with the predictions for the full data.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>full_fit <span class="ot">&lt;-</span> <span class="fu">fit</span>(final_workflow, data_combined_clean)</span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>predictions_full <span class="ot">&lt;-</span> <span class="fu">augment</span>(full_fit, data_combined_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>####Use the mutate() function to calculate the residuals of the predictions. The residuals are the difference between the predicted values and the actual values squared.</p>
+</section>
+<section id="use-the-mutate-function-to-calculate-the-residuals-of-the-predictions.-the-residuals-are-the-difference-between-the-predicted-values-and-the-actual-values-squared." class="level4">
+<h4 class="anchored" data-anchor-id="use-the-mutate-function-to-calculate-the-residuals-of-the-predictions.-the-residuals-are-the-difference-between-the-predicted-values-and-the-actual-values-squared.">Use the mutate() function to calculate the residuals of the predictions. The residuals are the difference between the predicted values and the actual values squared.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>predictions_with_residuals <span class="ot">&lt;-</span> predictions_full <span class="sc">%&gt;%</span></span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">residual_squared =</span> (q_mean <span class="sc">-</span> .pred)<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>####Use ggplot2 to create a map of the predictions.</p>
+</section>
+<section id="use-ggplot2-to-create-a-map-of-the-predictions." class="level4">
+<h4 class="anchored" data-anchor-id="use-ggplot2-to-create-a-map-of-the-predictions.">Use ggplot2 to create a map of the predictions.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>predictions_with_residuals <span class="ot">&lt;-</span> predictions_with_residuals <span class="sc">%&gt;%</span></span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -5309,7 +5464,9 @@ predictor: 35</code></pre>
 <span id="cb78-18"><a href="#cb78-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb78-19"><a href="#cb78-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>####Use ggplot2 to create a map of the residuals.</p>
+</section>
+<section id="use-ggplot2-to-create-a-map-of-the-residuals." class="level4">
+<h4 class="anchored" data-anchor-id="use-ggplot2-to-create-a-map-of-the-residuals.">Use ggplot2 to create a map of the residuals.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>map_residuals <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(predictions_with_residuals, </span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">aes</span>(<span class="at">x =</span> basin_code, <span class="at">y =</span> sub_basin, <span class="at">color =</span> residual_squared)) <span class="sc">+</span></span>
@@ -5327,7 +5484,9 @@ predictor: 35</code></pre>
 <span id="cb79-14"><a href="#cb79-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb79-15"><a href="#cb79-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>####Use patchwork to combine the two maps into one figure.</p>
+</section>
+<section id="use-patchwork-to-combine-the-two-maps-into-one-figure." class="level4">
+<h4 class="anchored" data-anchor-id="use-patchwork-to-combine-the-two-maps-into-one-figure.">Use patchwork to combine the two maps into one figure.</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>combined_maps <span class="ot">&lt;-</span> map_predictions <span class="sc">/</span> map_residuals</span>
@@ -5342,6 +5501,9 @@ predictor: 35</code></pre>
 </div>
 
 
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
