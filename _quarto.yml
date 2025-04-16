@@ -1,0 +1,15 @@
+project: 
+  output-dir: docs
+  type: website
+title: "CSU_ESS330_Lab8"
+author: "Olivia Gilpin"
+date: "4-16-2025"  
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc-depth: 3
+    toc-location: left 
+execute:
+  echo: true
+editor: visual

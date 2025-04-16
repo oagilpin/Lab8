@@ -1,0 +1,345 @@
+---
+project: 
+  output-dir: docs
+  type: website
+title: "CSU_ESS330_Lab8"
+author: "Olivia Gilpin"
+date: "4-16-2025"  
+format:
+  html:
+    self-contained: true
+execute:
+  echo: true
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(skimr)
+library(visdat)
+library(ggpubr)
+library(powerjoin)
+```
+
+##Data Import/Tidy/Transform
+
+###Read in the data
+
+```{r}
+file_names <- c("camels_clim", "camels_hydro", "camels_soil")
+
+data_list <- file_names %>%
+  set_names() %>%  
+  map(~ read_delim(paste0("data/", .x, ".txt"), delim = ";"))
+
+data_combined <- reduce(data_list, power_full_join, by = "gauge_id")  
+
+glimpse(data_combined)
+```
+
+###Clean the data
+
+```{r}
+colnames(data_combined)
+
+data_combined_clean <- data_combined %>%
+  mutate(across(where(is.character) & -gauge_id, as.factor)) %>%
+  mutate(across(where(is.numeric), as.numeric)) %>%
+  drop_na(q_mean)
+```
+
+```{r}
+dplyr::last_dplyr_warnings()
+```
+
+##Data Spliting
+
+###Set a seed
+
+```{r}
+set.seed(123)
+```
+
+###Use the initial_split() function from the rsample package to split the data. Use 80% of the data for training and 20% for testing.
+
+```{r}
+data_split <- initial_split(data_combined_clean, prop = 0.8)
+
+train_data <- training(data_split)
+test_data <- testing(data_split)
+
+dim(train_data)
+dim(test_data)
+```
+
+###Use the training() and testing() functions from the rsample package to extract the training and testing data.frames.
+
+```{r}
+train_data <- training(data_split)
+test_data <- testing(data_split)
+
+dim(train_data)
+dim(test_data)
+```
+
+##Feature Engineering
+
+###Use the recipe() function from the recipes package to create a recipe object.
+
+```{r}
+model_recipe <- recipe(q_mean ~ ., data = train_data) %>%
+  step_rm(gauge_id) %>%
+  step_dummy(all_nominal_predictors()) %>%
+  step_YeoJohnson(all_numeric_predictors()) %>%
+  step_nzv(all_predictors()) %>%
+  step_corr(all_numeric_predictors(), threshold = 0.9) %>%
+  step_normalize(all_numeric_predictors())
+
+model_recipe
+```
+
+####You should not use gauge_lat and gauge_lon in the recipe as predictors. You can use the step_rm() function to remove them from the recipe while ensureing they persist in any data passed throuhg fit\_\*. -- DONE
+
+##Resampling and Model Testing ###1. Build resamples
+
+```{r}
+set.seed(234)  
+cv_folds <- vfold_cv(train_data, v = 10)
+
+cv_folds
+```
+
+###2. Build 3 Candidate Models ####Define 3 models that you feel have the best chance of performing well on the data. You can use any of the models we have learned about in class. -- Linear regression is a baseline model that can be effective if there is a linear relationship between the predictors and the outcome variable. It is fast to compute and interpretable. Random forests are ensemble models that can handle complex, non-linear relationships and interactions between predictors. It also handles missing data well and is relatively robust to overfitting. Boosted trees (like XGBoost) can perform well on structured/tabular data and often provide strong predictive performance. They work by combining multiple weak learners (decision trees) to create a strong model, typically outperforming random forests in terms of accuracy.
+
+```{r}
+linear_model <- linear_reg() %>%
+  set_engine("lm") %>%
+  set_mode("regression")
+
+rf_model <- rand_forest() %>%
+  set_engine("ranger") %>%
+  set_mode("regression")
+
+boosted_tree_model <- boost_tree() %>%
+  set_engine("xgboost") %>%
+  set_mode("regression")
+```
+
+###3. Test the models ####Use the workflow_set() function to test your three models against the recipe. You will use the workflow_map() function to map the models to the recipe and resamples.
+
+```{r}
+model_workflows <- workflow_set(
+  preproc = list(recipe = model_recipe),
+  models = list(
+    linear = linear_model,
+    random_forest = rf_model,
+    xgboost = boosted_tree_model
+  )
+)
+
+model_results <- model_workflows %>%
+  workflow_map(
+    fn = "fit_resamples",
+    resamples = cv_folds,
+    metrics = metric_set(rmse, rsq, mae),
+    control = control_resamples(save_pred = TRUE)
+  )
+```
+
+####Once complete, use autoplot to visualize the results of the workflow set.
+
+```{r}
+autoplot(model_results)
+```
+
+###4. Model Selection ####Based on the visualized metrics, select a model that you think best performs. Describe the reason for your choice using the metrics. -- Based on the visualization of model performance metrics, I would select the random forest model as it demonstrates the lowest RMSE and MAE values while achieving the highest R-squared score. The random forest's performance being significantly better likely stems from its ability to capture the non-linear relationships in hydrological data and effectively model the complex interactions between soil, climate, and water flow variables.
+
+####Describe the model you selected. What is the model type, engine, and mode. Why do you think it is performing well for this problem? -- I selected the random forest model (rand_forest()) with the "ranger" engine in regression mode, which likely outperforms the alternatives due to its ability to capture complex non-linear relationships in hydrological data and handle interactions between diverse environmental variables without requiring explicit specification.
+
+##Model Tuning ###1. Build a model for your chosen specification. ####Define a tunable model
+
+```{r}
+rf_tunable <- rand_forest(
+  mtry = tune(),        
+  min_n = tune(),       
+  trees = 1000          
+) %>%
+  set_engine("ranger") %>%
+  set_mode("regression")
+```
+
+###2. Create a workflow ####Create a workflow object using the workflow() that adds your recipe and tunable model.
+
+```{r}
+rf_tuning_workflow <- workflow() %>%
+  add_recipe(model_recipe) %>%
+  add_model(rf_tunable)
+```
+
+###3. Check The Tunable Values / Ranges ####Use the extract_parameter_set_dials(YOUR MODEL WORKFLOW) and save it to an object named dials. Check the dials\$object slot to see the tunable parameters and their ranges.
+
+```{r}
+rf_params <- extract_parameter_set_dials(rf_tuning_workflow)
+rf_params
+rf_params$object
+```
+
+###4. Define the Search Space ####Create a SFD Grid Object with 25 predefined combinations.
+
+```{r}
+rf_params <- parameters(
+  mtry(range = c(1, 20)),  
+  min_n(range = c(2, 40))
+)
+
+my_grid <- grid_space_filling(
+  rf_params,  
+  size = 25
+)
+```
+
+###5. Tune the Model 
+####Use the tune_grid() function to search the grid and evaluate the model performance using the code below. In this example, we are doing 2 additional things. Setting a set of metrics to compute and saving the predictions to a output tibble.
+
+```{r}
+model_params <- tune_grid(
+  rf_tuning_workflow,  
+  resamples = cv_folds,  
+  grid = my_grid,  
+  metrics = metric_set(rmse, rsq, mae),
+  control = control_grid(save_pred = TRUE)
+)
+
+autoplot(model_params)
+```
+
+####Describe what you see! -- The random forest model performs best with 10-20 predictors (mtry), showing lower errors and higher R² values in this range. Performance worsens with fewer predictors, while minimal node size shows inconsistent effects across different values.
+
+###6. Check the skill of the tuned model
+####Use the collect_metrics() function to check the skill of the tuned model. Describe what you see, remember dplyr functions like arrange, slice_*, and filter will work on this tibble.
+```{r}
+metrics_all <- collect_metrics(model_params)
+metrics_all %>% 
+  arrange(mean) %>% 
+  filter(.metric == "mae") %>% 
+  slice_head(n = 5)
+```
+####Use the show_best() function to show the best performing model based on Mean Absolute Error.
+```{r}
+best_mae <- show_best(model_params, metric = "mae")
+best_mae
+```
+
+####Please interpret the results of the first row of show_best(). What do you see? What hyperparameter set is best for this model, based on MAE? -- The first row of show_best() shows the best performing model has an mtry value of around 15 and min_n of approximately 20. This combination produced the lowest MAE, meaning it makes predictions that are, on average, closest to the actual values. This optimal parameter set balances using enough variables at each split while maintaining sufficient data in each node.
+
+####Use the select_best() function to save the best performing hyperparameter set to an object called hp_best.
+```{r}
+hp_best <- select_best(model_params, metric = "mae")
+```
+
+###7. Finalize your model
+####Run finalize_workflow() based on your workflow and best hyperparmater set to create a final workflow object.
+```{r}
+final_workflow <- finalize_workflow(
+  rf_tuning_workflow,
+  hp_best
+)
+```
+
+###Final Model Verification
+####Use last_fit() to fit the finalized workflow the original split object (output of initial_split()). This will fit the model to the training data and validate it on the testing data.
+```{r}
+final_fit <- last_fit(final_workflow, data_split)
+```
+
+
+####Use the collect_metrics() function to check the performance of the final model on the test data. This will return a tibble with the metrics for the final model.
+```{r}
+test_metrics <- collect_metrics(final_fit)
+test_metrics
+```
+
+####Interpret these results. How does the final model perform on the test data? Is it better or worse than the training data? Use your knowledge of the regression based metrics to describe the results. -- The final random forest model shows an excellent level of performance on the test data with an RMSE of 0.159, which indicates a relatively small level of prediction errors. The R² value of 0.988 reveals that the model explains approximately 98.8% of the variance in streamflow (q_mean). This suggests the model has generalized extremely well to unseen data, maintaining high accuracy without overfitting to the training data. The high R² value indicates the model captures nearly all the explainable variation in streamflow based on the available predictors.
+
+####Use the collect_predictions() function to check the predictions of the final model on the test data. This will return a tibble with the predictions for the final model.
+```{r}
+test_predictions <- collect_predictions(final_fit)
+```
+
+####Use the output of this to create a scatter plot of the predicted values vs the actual values. Use the ggplot2 package to create the plot. This plot should include (1) geom_smooth(method = “lm”) to add the linear fit of predictions and truth (2) geom_abline() to add a 1:1 line (3) nice colors via scale_color_* and (4) accurate labels.
+```{r}
+ggplot(test_predictions, aes(x = q_mean, y = .pred)) +
+  geom_point(alpha = 0.6, color = "darkblue") +
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "gray50") +
+  scale_color_viridis_c() +
+  labs(
+    title = "Predicted vs Actual Streamflow",
+    x = "Actual Streamflow (q_mean)",
+    y = "Predicted Streamflow",
+    subtitle = "Random Forest Model Performance on Test Data"
+  ) +
+  theme_minimal()
+```
+###Building a Map!
+####This full fit can be passed to the augment() function to make predictions on the full, cleaned data. This will return a tibble with the predictions for the full data.
+```{r}
+full_fit <- fit(final_workflow, data_combined_clean)
+predictions_full <- augment(full_fit, data_combined_clean)
+```
+####Use the mutate() function to calculate the residuals of the predictions. The residuals are the difference between the predicted values and the actual values squared.
+```{r}
+predictions_with_residuals <- predictions_full %>%
+  mutate(residual_squared = (q_mean - .pred)^2)
+```
+
+####Use ggplot2 to create a map of the predictions.
+```{r}
+predictions_with_residuals <- predictions_with_residuals %>%
+  mutate(
+    basin_code = as.numeric(substr(gauge_id, 1, 2)),
+    sub_basin = as.numeric(substr(gauge_id, 3, 5))
+  )
+
+library(ggplot2)
+
+map_predictions <- ggplot(predictions_with_residuals, 
+                         aes(x = basin_code, y = sub_basin, color = .pred)) +
+  geom_point(size = 3, alpha = 0.7) +
+  scale_color_viridis_c(name = "Predicted\nStreamflow", option = "plasma") +
+  labs(
+    title = "Predicted Streamflow by Basin Code",
+    x = "Major Basin Code",
+    y = "Sub-basin Code",
+    subtitle = "Using gauge ID components as proxy for location"
+  ) +
+  theme_minimal()
+```
+
+####Use ggplot2 to create a map of the residuals.
+```{r}
+map_residuals <- ggplot(predictions_with_residuals, 
+                        aes(x = basin_code, y = sub_basin, color = residual_squared)) +
+  geom_point(size = 3, alpha = 0.7) +
+  scale_color_viridis_c(
+    name = "Squared\nResiduals", 
+    option = "magma", 
+    trans = "log"
+  ) +
+  labs(
+    title = "Model Residuals by Basin Code",
+    x = "Major Basin Code",
+    y = "Sub-basin Code",
+    subtitle = "Using gauge ID components as proxy for location"
+  ) +
+  theme_minimal()
+```
+
+####Use patchwork to combine the two maps into one figure.
+```{r}
+library(patchwork)
+combined_maps <- map_predictions / map_residuals
+combined_maps
+```
+
