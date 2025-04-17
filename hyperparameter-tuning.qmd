@@ -354,4 +354,243 @@ library(patchwork)
 combined_maps <- map_predictions / map_residuals
 combined_maps
 ```
+#### Aternative visual
+```{r}
+# Final fit using your workflow
+final_fit_full <- fit(final_workflow, data = data_combined_clean)
+final_predictions_full <- augment(final_fit_full, new_data = data_combined_clean)
+head(final_predictions_full)
+
+# Add residuals calculation
+final_predictions_full <- final_predictions_full %>%
+  mutate(residuals = (q_mean - .pred)^2,
+         .resid = q_mean - .pred)
+
+# Since you don't have gauge_lon and gauge_lat in your dataset,
+# we'll use the basin code approach from your original code as a spatial proxy
+final_predictions_full <- final_predictions_full %>%
+  mutate(
+    basin_code = as.numeric(substr(gauge_id, 1, 2)),
+    sub_basin = as.numeric(substr(gauge_id, 3, 5))
+  )
+
+# Create prediction plot using basin codes as spatial proxies
+predictions_plot <- ggplot(final_predictions_full, aes(x = basin_code, y = sub_basin)) +
+  geom_point(aes(color = .pred), size = 2) +
+  scale_color_viridis_c(name = "Predicted\nStreamflow", option = "plasma") +  
+  labs(
+    title = "Predictions of q_mean",
+    x = "Major Basin Code",
+    y = "Sub-basin Code"
+  ) +
+  theme_minimal()
+print(predictions_plot)
+
+# Create residuals plot using basin codes as spatial proxies
+residuals_plot <- ggplot(final_predictions_full, aes(x = basin_code, y = sub_basin)) +
+  geom_point(aes(color = .resid), size = 2) +
+  scale_color_viridis_c(name = "Residuals", option = "magma") + 
+  labs(
+    title = "Residuals of q_mean Predictions",
+    x = "Major Basin Code",
+    y = "Sub-basin Code"
+  ) +
+  theme_minimal()
+print(residuals_plot)
+
+# Combine plots using patchwork
+library(patchwork)
+print(predictions_plot + residuals_plot)
+```
+```{r}
+# Load necessary libraries
+library(tidyverse)
+library(maps)
+library(sf)
+library(patchwork)
+library(viridis)
+
+# Function to create US map base layer
+create_us_base <- function() {
+  # Get US states boundaries
+  us_states <- map_data("state")
+  
+  # Base map
+  ggplot() +
+    geom_polygon(data = us_states, 
+                aes(x = long, y = lat, group = group),
+                fill = "white", color = "darkgray", size = 0.2) +
+    coord_fixed(1.3) +
+    theme_minimal() +
+    theme(panel.grid = element_blank(),
+          axis.text = element_blank(),
+          axis.title = element_blank())
+}
+
+# Assuming we have our predictions from the workflow
+# Let's create data with watershed locations
+# First, let's create a mapping of gauge IDs to approximate lat/lon based on CAMELS watersheds
+# This is a simplified approach since we don't have the actual coordinates in your data
+
+# Create a synthetic mapping of gauge IDs to locations
+# In real implementation, you would join with actual CAMELS gauge locations
+set.seed(123)
+
+# Extract the basin_code and sub_basin from your dataset
+gauge_locations <- final_predictions_full %>%
+  select(gauge_id, basin_code, sub_basin, .pred, .resid) %>%
+  distinct()
+
+# Create a mapping of basin_code to approximate US regions
+# This is simplified - in reality you would use actual USGS gauge locations
+basin_regions <- tibble(
+  basin_code = 1:18,  # Most USGS basins are numbered 01-18
+  region_x = c(-75, -80, -85, -90, -95, -100, -105, -110, -115, -120, -125, -85, -90, -95, -100, -105, -110, -115),
+  region_y = c(40, 38, 36, 34, 36, 38, 40, 42, 44, 42, 40, 30, 28, 26, 28, 30, 32, 34)
+)
+
+# Join the regions to our gauge data
+gauge_map_data <- gauge_locations %>%
+  left_join(basin_regions, by = "basin_code") %>%
+  # Add some randomness to distribute points within regions
+  mutate(
+    longitude = region_x + (sub_basin / 1000 * 10) - 5,
+    latitude = region_y + (sub_basin %% 100) / 100 * 6 - 3
+  ) %>%
+  # Filter to keep only points within continental US bounds
+  filter(
+    longitude > -125 & longitude < -66,
+    latitude > 24 & latitude < 50
+  )
+
+# Create predictions map
+predictions_map <- create_us_base() +
+  geom_point(data = gauge_map_data, 
+            aes(x = longitude, y = latitude, color = .pred),
+            size = 3, alpha = 0.7) +
+  scale_color_viridis_c(
+    name = "Predicted\nStreamflow",
+    option = "plasma"
+  ) +
+  labs(
+    title = "Predicted Streamflow Across CONUS",
+    subtitle = "Based on Random Forest Model"
+  )
+
+# Create residuals map
+residuals_map <- create_us_base() +
+  geom_point(data = gauge_map_data, 
+            aes(x = longitude, y = latitude, color = .resid),
+            size = 3, alpha = 0.7) +
+  scale_color_viridis_c(
+    name = "Residuals",
+    option = "magma",
+    limits = c(min(gauge_map_data$.resid), max(gauge_map_data$.resid))
+  ) +
+  labs(
+    title = "Model Residuals Across CONUS",
+    subtitle = "Actual - Predicted Streamflow"
+  )
+
+# Load necessary libraries
+library(tidyverse)
+library(maps)
+library(sf)
+library(patchwork)
+library(viridis)
+
+# Function to create a much larger US map base layer
+create_large_us_base <- function() {
+  # Get US states boundaries
+  us_states <- map_data("state")
+  
+  # Base map with minimal everything to maximize map size
+  ggplot() +
+    geom_polygon(data = us_states, 
+                aes(x = long, y = lat, group = group),
+                fill = "white", color = "darkgray", size = 0.2) +
+    coord_fixed(1.3, xlim = c(-125, -66), ylim = c(24, 50)) +  # Focus on CONUS
+    theme_void() +  # Most minimal theme
+    theme(
+      plot.margin = margin(t = 30, r = 0, b = 0, l = 0),  # Only top margin for title
+      plot.title = element_text(size = 12, face = "bold", hjust = 0.5),
+      plot.subtitle = element_text(size = 10, hjust = 0.5)
+    )
+}
+
+# Create prediction map with minimal elements
+predictions_map <- create_large_us_base() +
+  geom_point(data = gauge_map_data, 
+            aes(x = longitude, y = latitude, color = .pred),
+            size = 0.75, alpha = 0.7) +
+  scale_color_viridis_c(
+    name = "Pred.",  # Shortened name
+    option = "plasma"
+  ) +
+  ggtitle("Predicted Streamflow\nAcross CONUS") +
+  labs(subtitle = "Based on Random Forest Model")
+
+# Create residuals map with minimal elements
+residuals_map <- create_large_us_base() +
+  geom_point(data = gauge_map_data, 
+            aes(x = longitude, y = latitude, color = .resid),
+            size = 0.75, alpha = 0.7) +
+  scale_color_viridis_c(
+    name = "Resid.",  # Shortened name
+    option = "magma",
+    limits = c(min(gauge_map_data$.resid), max(gauge_map_data$.resid))
+  ) +
+  ggtitle("Model Residuals\nAcross CONUS") +
+  labs(subtitle = "Actual - Predicted Streamflow")
+
+# Combine maps for maximum map size
+combined_maps <- predictions_map + residuals_map + 
+  plot_layout(
+    ncol = 2,
+    widths = c(1, 1),
+    guides = "collect"
+  ) & 
+  theme(
+    legend.position = "bottom",
+    legend.box = "horizontal",
+    legend.direction = "horizontal",
+    legend.key.size = unit(0.3, "cm"),  # Tiny legend keys
+    legend.key.width = unit(0.7, "cm"),
+    legend.text = element_text(size = 6),  # Tiny legend text
+    legend.title = element_text(size = 7),  # Tiny legend title
+    legend.margin = margin(0, 0, 0, 0),
+    legend.box.margin = margin(0, 0, 0, 0),
+    legend.spacing.x = unit(0.1, "cm"),
+    legend.spacing.y = unit(0, "cm")
+  )
+
+# Print with very large dimensions
+ggsave("camels_prediction_maps.png", combined_maps, 
+       width = 15, height = 7,  # Landscape format to match US shape
+       dpi = 600,  # Very high resolution
+       bg = "white")
+
+# Combine maps with better proportions
+combined_maps <- predictions_map + residuals_map + 
+  plot_layout(
+    guides = "collect",
+    widths = c(1, 1)  # Equal widths for both plots
+  ) & 
+  theme(
+    legend.position = "bottom",
+    legend.box = "horizontal",
+    legend.key.size = unit(0.5, "cm"),  # Smaller legend keys
+    legend.text = element_text(size = 8),  # Smaller legend text
+    legend.title = element_text(size = 10, face = "bold"),  # Smaller legend title
+    legend.margin = margin(t = 0, r = 0, b = 0, l = 0),  # Reduced legend margins
+    legend.box.margin = margin(t = 10, r = 0, b = 0, l = 0)  # Reduced box margins
+  )
+
+# Print the combined map
+print(combined_maps)
+
+# Save with proper dimensions
+ggsave("camels_prediction_maps.png", combined_maps, width = 24, height = 14, dpi = 300, bg = "white")
+```
+
 
